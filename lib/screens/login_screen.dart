@@ -1,6 +1,8 @@
+import 'package:flash_chat_flutter/widgets/hero_logo.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  static String id = '/login_screen';
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -16,16 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height: 200.0,
-              child: Image.asset('images/logo.png'),
-            ),
+            buildHeroLogo(h: 200.0),
             SizedBox(
               height: 48.0,
             ),
             TextField(
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {});
               },
               decoration: InputDecoration(
                 hintText: 'Enter your email',
@@ -51,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {});
               },
               decoration: InputDecoration(
                 hintText: 'Enter your password.',
