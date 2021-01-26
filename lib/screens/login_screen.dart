@@ -93,10 +93,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   authBloc.loginEmail(email, password);
                 },
               ),
-              MainButton(
-                buttonName: 'Google Sign In',
-                buttonColor: Colors.lightBlueAccent,
-                onPressedFunction: () => authBloc.loginGoogle(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Material(
+                  elevation: 5.0,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: MaterialButton(
+                    onPressed: () => authBloc.loginGoogle(),
+                    minWidth: 200.0,
+                    height: 42.0,
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      crossAxisAlignment: WrapCrossAlignment.end,
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        Container(
+                          height: 16,
+                          child: Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_"G"_Logo.svg/512px-Google_"G"_Logo.svg.png'),
+                        ),
+                        Text(
+                          'Sign in with Google',
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
