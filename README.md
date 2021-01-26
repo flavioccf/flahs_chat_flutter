@@ -1,16 +1,14 @@
-# flash_chat_flutter
+# Flash Chat ⚡️
 
-A new Flutter project.
+## The App
 
-## Getting Started
+This app is part of the Flutter Course by [App Brewery](https://www.appbrewery.co/) 
+The main goal was to create a login page using Firebase 🔥 and a collection stream to exchange messages in a chat app.
 
-This project is a starting point for a Flutter application.
+As a plus it was added Google sign in feature with the project.
 
-A few resources to get you started if this is your first Flutter project:
+## What do you need?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Besides cloning the repository you will need to create a firebase instance and follow their step to create a auth and collection for message exchange.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Finished App](https://github.com/londonappbrewery/Images/blob/master/flash_chat_flutter_demo.gif)
