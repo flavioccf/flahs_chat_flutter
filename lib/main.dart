@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flash_chat_flutter/blocs/auth_bloc.dart';
 import 'package:flash_chat_flutter/routes/routes.dart';
 import 'package:flash_chat_flutter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   // https://stackoverflow.com/a/63492262
@@ -14,9 +16,12 @@ void main() async {
 class FlashChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: WelcomeScreen.id,
-      routes: routeList(),
+    return Provider(
+      create: (context) => AuthBloc(),
+      child: MaterialApp(
+        initialRoute: WelcomeScreen.id,
+        routes: routeList(),
+      ),
     );
   }
 }

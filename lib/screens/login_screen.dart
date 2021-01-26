@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat_flutter/blocs/auth_bloc.dart';
 import 'package:flash_chat_flutter/widgets/hero_logo.dart';
 import 'package:flash_chat_flutter/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import 'chat_screen.dart';
@@ -15,12 +19,30 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
-  final _auth = FirebaseAuth.instance;
   String email;
   String password;
+  StreamSubscription<User> loginStateSubscription;
+
+  @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    loginStateSubscription = authBloc.currentUser.listen((newUser) {
+      if (newUser != null) {
+        Navigator.pushNamed(context, ChatScreen.id);
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    loginStateSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -68,22 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     showSpinner = true;
                   });
-                  try {
-                    final newUser = await _auth.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    if (newUser != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
-                    } else {
-                      setState(() {
-                        showSpinner = false;
-                      });
-                    }
-                  } catch (e) {
-                    print(e);
-                  }
+                  authBloc.loginEmail(email, password);
                 },
+              ),
+              MainButton(
+                buttonName: 'Google Sign In',
+                buttonColor: Colors.lightBlueAccent,
+                onPressedFunction: () => authBloc.loginGoogle(),
               ),
             ],
           ),

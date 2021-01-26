@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "978824401648-15682kdo9pqsubqub046qoirrrr18doq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flavioccf.flash_chat_flutter",
+            "certificate_hash": "f5363321123fc508748388069558f7435a9bed3f"
+          }
+        },
+        {
           "client_id": "978824401648-vif01jgondv5c7riva8lvjcj7vpb7nmn.apps.googleusercontent.com",
           "client_type": 3
         }

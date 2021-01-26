@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat_flutter/blocs/auth_bloc.dart';
+import 'package:flash_chat_flutter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 
@@ -16,26 +19,22 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
 
-  final _auth = FirebaseAuth.instance;
-
   String messageText;
+
+  String userPhoto = kDummyUserPhoto;
 
   @override
   void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((newUser) {
+      if (newUser != null) {
+        loggedInUser = newUser;
+        if (loggedInUser.photoURL != null) {
+          userPhoto = loggedInUser.photoURL;
+        }
       }
-    } catch (e) {
-      print(e);
-    }
+    });
+    super.initState();
   }
 
   @override
@@ -47,11 +46,22 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
+                AuthBloc().logout();
+                Navigator.pushNamed(context, WelcomeScreen.id);
               }),
         ],
-        title: Text('⚡️Chat'),
+        title: Row(
+          children: [
+            Text('⚡️Chat'),
+            SizedBox(
+              width: 10.0,
+            ),
+            CircleAvatar(
+              backgroundColor: Colors.lightBlue,
+              backgroundImage: NetworkImage(userPhoto),
+            ),
+          ],
+        ),
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SafeArea(

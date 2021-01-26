@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat_flutter/blocs/auth_bloc.dart';
 import 'package:flash_chat_flutter/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
 import 'package:flash_chat_flutter/widgets/hero_logo.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = '/';
@@ -17,6 +22,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+
+  StreamSubscription<User> loginStateSubscription;
 
   @override
   void initState() {
@@ -35,11 +42,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       setState(() {});
     });
 
-    @override
-    void dispose() {
-      controller.dispose();
-      super.dispose();
-    }
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    loginStateSubscription = authBloc.currentUser.listen((event) {});
+  }
+
+  @override
+  void dispose() {
+    loginStateSubscription.cancel();
+    super.dispose();
   }
 
   @override
